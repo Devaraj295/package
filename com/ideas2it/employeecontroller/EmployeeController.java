@@ -107,8 +107,9 @@ public class EmployeeController {
         System.out.println("Trainee ID :" + (traineeId));
         trainee.setId(traineeId++);
         trainee.setName(getName());
-        trainee.setAge(getAge());
-        trainee.setDateOfBirth(getDateOfBirth());
+        LocalDate dateOfBirth = getdateOfBirth();
+        trainee.setDateOfBirth(dateOfBirth);
+        trainee.setAge(getAge(dateOfBirth));
         trainee.setPhoneNumber(getPhoneNumber());
         trainee.setEmailId(getEmailId());
         traineeService.addTraineeDetails(trainee);
@@ -130,35 +131,6 @@ public class EmployeeController {
         return name;
     }
 
-   /* public int getAge() {
-        boolean isValidAge = false;
-        int age;
-        do {
-            logger.info("Enter the Employee Age :");
-            age = Integer.parseInt(scanner.next());
-            isValidAge = ValidationUtil.isValidInput
-                                (ValidationUtil.agePattern,
-                                Integer.toString(age));
-            if (!(isValidAge)) {
-                logger.warn("Enter the valid Age");
-                isValidAge = false;
-            } else  {
-                try {
-                    if ((age > 18) && (age < 60)) {
-                        isValidAge = true;
-                        return age;  
-                    } else {
-                        throw new InvalidInputException("Invalid Age");
-                    }
-                } catch (InvalidInputException exception) {
-                    logger.error("your are not Eligible for work " + exception);
-                    isValidAge = false;
-                }
-            }
-        } while (!(isValidAge));
-        return age;
-    } */
-
     public String getEmailId() {
         String emailId;
         boolean isValidEmail = false;
@@ -173,31 +145,29 @@ public class EmployeeController {
         return emailId;
     }
 
-    public String getDateOfBirth() {
-        boolean isCheck;
-        Trainee trainee = new Trainee();
-        String dateOfBirth = " ";
+    public LocalDate getDateOfBirth() {
+        String dateOfBirth;
         boolean isValidDateOfBirth = true;
+        LocalDate date = null;
         do {
             try {
                 logger.info("Enter the Employee Date of Birth :");
                 dateOfBirth = scanner.next();
-                LocalDate date = LocalDate.parse(dateOfBirth);
-                calculateAge(date);
-                isCheck = false;
+                date = LocalDate.parse(dateOfBirth);
+                isValidDateOfBirth = false;
             } catch (Exception exception) {
                 logger.error("Enter the valid Date of Birth");
-                isCheck = true;
+                isValidDateOfBirth = true;
             }
         } while (!(isValidDateOfBirth));
-        return (dateOfBirth);
+        return dateOfBirth;
     }
 
-    public int calculateAge(LocalDate date) {
+    public int getAge(LocalDate date) {
         int age = 0;
         LocalDate currentDate = LocalDate.now();
         if((date != null) && (currentDate != null)) {
-        age = Period.between(date,currentDate).getYears();
+            age = Period.between(date,currentDate).getYears();
         }
         return age;
     }

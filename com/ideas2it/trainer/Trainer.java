@@ -3,6 +3,7 @@ package com.ideas2it.trainer;
 import com.ideas2it.trainee.Trainee;
 
 import java.util.List;
+import java.time.LocalDate;
 
 public class Trainer {
     private float experience;
@@ -10,7 +11,7 @@ public class Trainer {
     private Integer age;
     private String emailId;
     private long phoneNumber;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     private Integer id;
     private List<Trainee> traineeList;
 
@@ -70,11 +71,11 @@ public class Trainer {
          return emailId;
     }
 
-   public String getDateOfBirth() {
+   public LocalDate getDateOfBirth() {
         return dateOfBirth;
    }
 
-   public void setDateOfBirth(String dateOfBirth) {
+   public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
    }
 

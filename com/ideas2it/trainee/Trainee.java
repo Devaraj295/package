@@ -1,10 +1,12 @@
 package com.ideas2it.trainee;
 
+import java.time.LocalDate;
+
 public class Trainee {
     private String name;
     private Integer age;
     private long phoneNumber;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     private Integer id;
     private String emailId;
 
@@ -48,11 +50,11 @@ public class Trainee {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-   public void setDateOfBirth(String dateOfBirth) {
+   public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
    }
 
