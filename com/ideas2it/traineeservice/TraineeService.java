@@ -17,11 +17,11 @@ public class TraineeService {
         return traineeDAO.getTraineeDetails();
     }
 
-    public boolean checkTraineeEmpty() {
+    public boolean isCheckTraineeEmpty() {
         return traineeDAO.traineeList.isEmpty();
     }
 
-    public boolean checkTraineeId(Integer id) {
+    public boolean isCheckTraineeId(Integer id) {
         boolean isValid = false;
         for (int index = 0; index < traineeDAO.traineeList.size(); index++) {
             if (id.equals(traineeDAO.traineeList.get(index).getId())) {

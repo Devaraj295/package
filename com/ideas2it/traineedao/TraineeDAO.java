@@ -1,6 +1,7 @@
 package com.ideas2it.traineedao;
 
 import com.ideas2it.trainee.Trainee;
+
 import java.util.ArrayList;
 import java.util.List;
 

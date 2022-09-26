@@ -17,11 +17,11 @@ public class TrainerService {
         return trainerDAO.getTrainer();
     }
 
-    public boolean checkTrainerListIsEmpty() {
+    public boolean isCheckTrainerListIsEmpty() {
             return trainerDAO.trainerList.isEmpty();
     }
 
-    public boolean checkTrainerId(Integer trainerId) {
+    public boolean isCheckTrainerId(Integer trainerId) {
         boolean isValid = false;
         for (int index = 0; index < trainerDAO.trainerList.size(); index++) {
             if ((trainerDAO.trainerList.get(index).getId()).equals(trainerId)) {
@@ -29,7 +29,7 @@ public class TrainerService {
             }
         }
         return isValid;
-   }
+    }
 
     public int checkIndex(Integer number) {
         int trainerIndex = 0;
@@ -52,6 +52,13 @@ public class TrainerService {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setAge(age);
+        trainerDAO.updateTrainer(index, trainer);
+    }
+
+    public void updateExperience(Integer id, float experience) {
+        int index = checkIndex(id);
+        Trainer trainer = getTrainer(index);
+        trainer.setExperience(experience);
         trainerDAO.updateTrainer(index, trainer);
     }
 

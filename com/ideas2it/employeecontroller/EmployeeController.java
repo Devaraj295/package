@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Scanner;
 
 public class EmployeeController {
@@ -45,7 +46,7 @@ public class EmployeeController {
                         break;
 
                     case 3:
-                        logger.info("Exist Trainee operation");
+                        logger.info("Exit Application");
                         break;
 
                     default:
@@ -66,9 +67,9 @@ public class EmployeeController {
                            + "2.Update Trainee Details" + "\n"
                            + "3.Delete Trainee Details" + "\n"
                            + "4.Read Trainee Detail" + "\n"
-                           + "5.Exit Trainee Details" + "\n");
+                           + "5.Go Back" + "\n");
                 scanner = new Scanner(System.in);
-                choice = scanner.nextInt(); 
+                choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
                         addTraineeDetails();
@@ -87,7 +88,7 @@ public class EmployeeController {
                         break;
 
                     case 5:
-                        logger.info("Existed Trainee operation");
+                        logger.info("Existed Trainee operation" + "\n");
                         break;
 
                     default :
@@ -115,60 +116,60 @@ public class EmployeeController {
 
     public String getName() {
         String name;
-        boolean isValidTraineeName = false;
+        boolean isValidName = false;
         do {
             logger.info("Enter the Employee Name :");
             name = scanner.next();
-            isValidTraineeName = ValidationUtil.isValidInput
+            isValidName = ValidationUtil.isValidInput
                                  (ValidationUtil.namePattern, name);
-            if (!(isValidTraineeName)) {
-                logger.warn("Enter Character only");
-                isValidTraineeName = false;
+            if (!(isValidName)) {
+                logger.warn("Enter Character only" + "\n");
+                isValidName = false;
             }
-        } while (!(isValidTraineeName));
+        } while (!(isValidName));
         return name;
     }
 
-    public int getAge() {
-        boolean isValidTraineeAge = false;
+   /* public int getAge() {
+        boolean isValidAge = false;
         int age;
         do {
             logger.info("Enter the Employee Age :");
             age = Integer.parseInt(scanner.next());
-            isValidTraineeAge = ValidationUtil.isValidInput
-                                (ValidationUtil.agePattern, 
+            isValidAge = ValidationUtil.isValidInput
+                                (ValidationUtil.agePattern,
                                 Integer.toString(age));
-            if (!(isValidTraineeAge)) {
+            if (!(isValidAge)) {
                 logger.warn("Enter the valid Age");
-                isValidTraineeAge = false;
+                isValidAge = false;
             } else  {
                 try {
                     if ((age > 18) && (age < 60)) {
-                        isValidTraineeAge = true;
+                        isValidAge = true;
                         return age;  
                     } else {
                         throw new InvalidInputException("Invalid Age");
                     }
                 } catch (InvalidInputException exception) {
                     logger.error("your are not Eligible for work " + exception);
-                    isValidTraineeAge = false;
+                    isValidAge = false;
                 }
             }
-        } while (!(isValidTraineeAge));
+        } while (!(isValidAge));
         return age;
-    }
+    } */
 
     public String getEmailId() {
         String emailId;
-        boolean isValid = false;
+        boolean isValidEmail = false;
         do {
-            logger.info("Enter employee email ID: ");
+            logger.info("Enter Employee email ID: ");
             emailId = scanner.next();
-            isValid = ValidationUtil.isValidInput(ValidationUtil.emailIdPattern, emailId);
-            if (!(isValid)) {
+            isValidEmail = ValidationUtil.isValidInput(ValidationUtil.emailIdPattern, emailId);
+            if (!(isValidEmail)) {
                 logger.warn("Invalid Email Id Formate");
             }
-        } while (!(isValid));
+        } while (!(isValidEmail));
         return emailId;
     }
 
@@ -176,87 +177,117 @@ public class EmployeeController {
         boolean isCheck;
         Trainee trainee = new Trainee();
         String dateOfBirth = " ";
-        boolean isValidTraineeDateOfBirth = true;
+        boolean isValidDateOfBirth = true;
         do {
             try {
                 logger.info("Enter the Employee Date of Birth :");
                 dateOfBirth = scanner.next();
                 LocalDate date = LocalDate.parse(dateOfBirth);
-                trainee.setDateOfBirth(dateOfBirth);
+                calculateAge(date);
                 isCheck = false;
-            } catch (Exception e) {
+            } catch (Exception exception) {
                 logger.error("Enter the valid Date of Birth");
                 isCheck = true;
             }
-        } while (!(isValidTraineeDateOfBirth));
+        } while (!(isValidDateOfBirth));
         return (dateOfBirth);
     }
 
+    public int calculateAge(LocalDate date) {
+        int age = 0;
+        LocalDate currentDate = LocalDate.now();
+        if((date != null) && (currentDate != null)) {
+        age = Period.between(date,currentDate).getYears();
+        }
+        return age;
+    }
+
     public long getPhoneNumber() {
-        boolean isValidTraineePhoneNumber;
+        boolean isValidPhoneNumber;
         long phoneNumber;
         do {
             logger.info("Enter the Employee phone number :");
             phoneNumber = scanner.nextLong();
-            isValidTraineePhoneNumber = ValidationUtil.isValidInput
-                                        (ValidationUtil.phoneNumberPattern, 
+            isValidPhoneNumber = ValidationUtil.isValidInput
+                                        (ValidationUtil.phoneNumberPattern,
                                         Long.toString(phoneNumber));
-            if (!(isValidTraineePhoneNumber)) {
+            if (!(isValidPhoneNumber)) {
                 logger.warn("Enter the valid Trainee PhoneNumber");
+                isValidPhoneNumber = false;
             }
-        } while (!(isValidTraineePhoneNumber));
-        return (phoneNumber);
+        } while (!(isValidPhoneNumber));
+        return phoneNumber;
+    }
+
+    public float getExperience() {
+        float experience;
+        boolean isValidExperience = false;
+        do {
+            logger.info("Enter Trainer experience");
+            experience = scanner.nextFloat();
+            isValidExperience = ValidationUtil.isValidInput(ValidationUtil.
+                                 experiencePattern, Float.toString(experience));
+            if (!(isValidExperience)) {
+                logger.warn("Enter valid formate");
+               isValidExperience = false;
+            }
+        } while (!(isValidExperience));
+        return experience;
     }
 
     public void updateTraineeDetails() {
         logger.info("Enter Trainee ID for update:");
         int id = scanner.nextInt();
-        if (traineeService.checkTraineeEmpty()) {
+        int choice = 0;
+        if (traineeService.isCheckTraineeEmpty()) {
             logger.warn("Trainee List is Empty");
         } else {
-            traineeService.checkIndexById(id);
-            logger.info("Choose the option" + "\n"
-                       + "1.Update Trainee Name" + "\n"
-                       + "2.Update Trainee Age" + "\n"
-                       + "3.Update Trainee Date of Birth" + "\n"
-                       + "4.Update Trainee Phone Number" + "\n"
-                       + "5.Update Trainee Email ID");
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    traineeService.updateName(id, getName());
-                    break;
+            do {
+                traineeService.checkIndexById(id);
+                logger.info("Choose the option" + "\n"
+                            + "1.Update Trainee Name" + "\n"
+                            + "2.Update Trainee Age" + "\n"
+                            + "3.Update Trainee Date of Birth" + "\n"
+                            + "4.Update Trainee Phone Number" + "\n"
+                            + "5.Update Trainee Email ID" + "\n"
+                            + "6.Go Back");
+                choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        traineeService.updateName(id, getName());
+                        break;
 
-                case 2:
-                    traineeService.updateAge(id, getAge());
-                    break;
+                    case 2:
+                        traineeService.updateAge(id, getAge());
+                        break;
 
-                case 3:
-                    traineeService.updateDateOfBirth(id, getDateOfBirth());
-                    break;
+                    case 3:
+                        traineeService.updateDateOfBirth(id, getDateOfBirth());
+                        break;
 
-                case 4:
-                    traineeService.updatePhoneNumber(id, getPhoneNumber());
-                    break;
+                    case 4:
+                        traineeService.updatePhoneNumber(id, getPhoneNumber());
+                        break;
 
-                case 5:
-                    traineeService.updateEmailId(id, getEmailId());
-                    break;
+                    case 5:
+                        traineeService.updateEmailId(id, getEmailId());
+                        break;
 
-                case 6:
-                    logger.info("Exit Trainee Updation");
-                    break;
-            }
+                    case 6:
+                        logger.info("Exit Trainee Updation");
+                        break;
+                }
+            } while (choice != 5);
         }
     }
 
      public void readTraineeDetails() {
         List<Trainee> traineeDetail = traineeService.getAllDetails();
         if(traineeDetail.isEmpty()) {
-            System.out.println("Trainee List is Empty");
+            logger.warn("Trainee List is Empty");
         } else {
             for (Trainee traineeList : traineeDetail) {
-                System.out.println(traineeList.toString());
+                logger.info(traineeList.toString());
             }
         }
     }
@@ -271,19 +302,19 @@ public class EmployeeController {
             logger.info("Trainee ID" + delete + "Deleted Successfully");
         }
     }
-   
+
     public void trainerOperation() {
         Trainer trainer = new Trainer();
         int trainerUserOption = 0;
         do {
-            try {
+            try { 
                 logger.info("choose the option" + "\n"
                             + "1.Add Trainer Details" + "\n"
                             + "2.Update Trainer Details" + "\n"
                             + "3.Delete Trainer Details" + "\n"
                             + "4.Read Trainer Detail" + "\n" 
                             + "5.Assign Trainees to Trainer" + "\n"
-                            + "6.Exit" + "\n");
+                            + "6.Go Back" + "\n");
                 scanner = new Scanner(System.in);
                 trainerUserOption = scanner.nextInt();
                 switch (trainerUserOption) {
@@ -326,10 +357,11 @@ public class EmployeeController {
         System.out.println("Trainer ID : " + trainerId);
         trainer.setId(trainerId++);
         trainer.setName(getName());
+        trainer.setExperience(getExperience());
         trainer.setAge(getAge());
         trainer.setDateOfBirth(getDateOfBirth());
-        trainer.setEmailId(getEmailId());
         trainer.setPhoneNumber(getPhoneNumber());
+        trainer.setEmailId(getEmailId());
         trainer.setTrainee(assignTrainee());
         trainerService.addTrainerDetail(trainer);
     }
@@ -344,7 +376,7 @@ public class EmployeeController {
             logger.info("Choose the option " + "\n"
                        + "1.Assign Exisist Trainee" + "\n"
                        + "2.Create Trainee and Assign" + "\n"
-                       + "3.Exit ");
+                       + "3.Go Back ");
             assignTraineeChoise = scanner.nextInt();
             switch (assignTraineeChoise) {
                 case 1:
@@ -357,6 +389,10 @@ public class EmployeeController {
                     traineeAssignList.add(traineeService.getId(traineeIndex));
                     break;
 
+                case 3:
+                    logger.info("");
+                    break;
+
                 default:
                     logger.warn("Enter valid option");
             }
@@ -367,9 +403,9 @@ public class EmployeeController {
     public void assignExisistTrainee() {
         int traineeID;
         List<Trainee> traineeAssignList = new ArrayList<Trainee>();
-        if (traineeService.checkTraineeEmpty()) {
+        if (traineeService.isCheckTraineeEmpty()) {
             logger.warn("Trainee List is Empty");
-        } else {           
+        } else {
             logger.info("Available Trainee List ID's :");
             for (Trainee trainee : traineeService.getAllDetails()) {
                 logger.info(trainee.getId());
@@ -378,17 +414,17 @@ public class EmployeeController {
             traineeID = scanner.nextInt();
             traineeAssignList.add(traineeService.getId(traineeId));
         }
-    }
-                   
+    }     
       
     public void updateTrainerDetails() {
         logger.info("Enter the Trainer ID to Update");
         int id = scanner.nextInt();
-        if(trainerService.checkTrainerListIsEmpty()) {
+        if(trainerService.isCheckTrainerListIsEmpty()) {
             logger.warn("Trainer List is Empty");
         } else {
-            trainerService.checkIndex(id);         
-            logger.info("1.Update Trainer Name" + "\n" 
+            trainerService.checkIndex(id);       
+            logger.info("Choose the option" + "\n" 
+                        + "1.Update Trainer Name" + "\n"
                         + "2.Update Trainer Age" + "\n"
                         + "3.Update Trainer Date of Birth" + "\n"                              
                         + "4.update Trainer Phone Number" + "\n"
@@ -421,7 +457,6 @@ public class EmployeeController {
         }
     }
 
-  
     public void readTrainerDetails() {
         TrainerDAO trainerDAO = new TrainerDAO();
         List<Trainer> trainerDetails = trainerService.getTrainerDetails();

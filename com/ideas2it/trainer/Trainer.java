@@ -5,6 +5,7 @@ import com.ideas2it.trainee.Trainee;
 import java.util.List;
 
 public class Trainer {
+    private float experience;
     private String name;
     private Integer age;
     private String emailId;
@@ -19,6 +20,14 @@ public class Trainer {
 
     public List<Trainee> getTrainee() {
         return traineeList;
+    }
+
+    public void setExperience(float experience) {
+        this.experience = experience;
+    }
+
+    public float getExperience() {
+         return experience;
     }
 
     public void setName(String name) {
