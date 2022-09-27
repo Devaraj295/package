@@ -107,7 +107,7 @@ public class EmployeeController {
         System.out.println("Trainee ID :" + (traineeId));
         trainee.setId(traineeId++);
         trainee.setName(getName());
-        LocalDate dateOfBirth = getdateOfBirth();
+        LocalDate dateOfBirth = getDateOfBirth();
         trainee.setDateOfBirth(dateOfBirth);
         trainee.setAge(getAge(dateOfBirth));
         trainee.setPhoneNumber(getPhoneNumber());
@@ -147,20 +147,20 @@ public class EmployeeController {
 
     public LocalDate getDateOfBirth() {
         String dateOfBirth;
-        boolean isValidDateOfBirth = true;
+        boolean isValidDateOfBirth = false;
         LocalDate date = null;
         do {
             try {
                 logger.info("Enter the Employee Date of Birth :");
                 dateOfBirth = scanner.next();
                 date = LocalDate.parse(dateOfBirth);
-                isValidDateOfBirth = false;
+                isValidDateOfBirth = true;
             } catch (Exception exception) {
                 logger.error("Enter the valid Date of Birth");
-                isValidDateOfBirth = true;
+                isValidDateOfBirth = false;
             }
         } while (!(isValidDateOfBirth));
-        return dateOfBirth;
+        return date;
     }
 
     public int getAge(LocalDate date) {
@@ -216,11 +216,10 @@ public class EmployeeController {
                 traineeService.checkIndexById(id);
                 logger.info("Choose the option" + "\n"
                             + "1.Update Trainee Name" + "\n"
-                            + "2.Update Trainee Age" + "\n"
-                            + "3.Update Trainee Date of Birth" + "\n"
-                            + "4.Update Trainee Phone Number" + "\n"
-                            + "5.Update Trainee Email ID" + "\n"
-                            + "6.Go Back");
+                            + "2.Update Trainee Date of Birth" + "\n"
+                            + "3.Update Trainee Phone Number" + "\n"
+                            + "4.Update Trainee Email ID" + "\n"
+                            + "5.Go Back");
                 choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
@@ -228,22 +227,18 @@ public class EmployeeController {
                         break;
 
                     case 2:
-                        traineeService.updateAge(id, getAge());
-                        break;
-
-                    case 3:
                         traineeService.updateDateOfBirth(id, getDateOfBirth());
                         break;
 
-                    case 4:
+                    case 3:
                         traineeService.updatePhoneNumber(id, getPhoneNumber());
                         break;
 
-                    case 5:
+                    case 4:
                         traineeService.updateEmailId(id, getEmailId());
                         break;
 
-                    case 6:
+                    case 5:
                         logger.info("Exit Trainee Updation");
                         break;
                 }
@@ -328,8 +323,9 @@ public class EmployeeController {
         trainer.setId(trainerId++);
         trainer.setName(getName());
         trainer.setExperience(getExperience());
-        trainer.setAge(getAge());
-        trainer.setDateOfBirth(getDateOfBirth());
+        LocalDate dateOfBirth = getDateOfBirth();
+        trainer.setDateOfBirth(dateOfBirth);
+        trainer.setAge(getAge(dateOfBirth));
         trainer.setPhoneNumber(getPhoneNumber());
         trainer.setEmailId(getEmailId());
         trainer.setTrainee(assignTrainee());
@@ -395,10 +391,9 @@ public class EmployeeController {
             trainerService.checkIndex(id);       
             logger.info("Choose the option" + "\n" 
                         + "1.Update Trainer Name" + "\n"
-                        + "2.Update Trainer Age" + "\n"
-                        + "3.Update Trainer Date of Birth" + "\n"                              
-                        + "4.update Trainer Phone Number" + "\n"
-                        + "5.Update Trainer EmailId");
+                        + "2.Update Trainer Date of Birth" + "\n"                              
+                        + "3.update Trainer Phone Number" + "\n"
+                        + "4.Update Trainer EmailId");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -406,18 +401,14 @@ public class EmployeeController {
                     break;
 
                 case 2:
-                    trainerService.updateAge(id, getAge());
-                    break;
-
-                case 3:
                     trainerService.updateDateOfBirth(id, getDateOfBirth());
                     break;
 
-                case 4:
+                case 3:
                     trainerService.updatePhoneNumber(id, getPhoneNumber());
                     break;
 
-                case 5:
+                case 4:
                     trainerService.updateEmailId(id, getEmailId());
                     break;
 

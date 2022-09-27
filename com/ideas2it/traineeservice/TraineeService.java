@@ -5,6 +5,7 @@ import com.ideas2it.trainee.Trainee;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class TraineeService {
     TraineeDAO traineeDAO = new TraineeDAO();
@@ -70,7 +71,7 @@ public class TraineeService {
         traineeDAO.updateTrainee(traineeIndex, trainee);
     }
 
-    public void updateDateOfBirth(Integer id, String dateOfBirth) {
+    public void updateDateOfBirth(Integer id, LocalDate dateOfBirth) {
         Integer traineeIndex = checkIndexById(id);
         Trainee trainee = getTrainee(traineeIndex);
         trainee.setDateOfBirth(dateOfBirth);

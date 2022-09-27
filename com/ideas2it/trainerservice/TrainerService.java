@@ -5,6 +5,7 @@ import com.ideas2it.trainer.Trainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class TrainerService {
     TrainerDAO trainerDAO = new TrainerDAO();
@@ -62,7 +63,7 @@ public class TrainerService {
         trainerDAO.updateTrainer(index, trainer);
     }
 
-    public void updateDateOfBirth(Integer id, String dateOfBirth) {
+    public void updateDateOfBirth(Integer id, LocalDate dateOfBirth) {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setDateOfBirth(dateOfBirth);
