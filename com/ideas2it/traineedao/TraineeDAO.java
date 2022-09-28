@@ -12,7 +12,7 @@ public class TraineeDAO {
         traineeList.add(trainee);
     }
 
-    public List<Trainee> getTraineeDetails() {
+    public List<Trainee> getTrainee() {
         return traineeList;
     }
 

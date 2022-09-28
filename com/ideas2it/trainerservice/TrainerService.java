@@ -17,6 +17,17 @@ public class TrainerService {
     public List<Trainer> getTrainerDetails() {
         return trainerDAO.getTrainer();
     }
+    
+    public boolean isCheckDuplicate(String emailId) {
+        boolean isDuplicate = true;
+        for (Trainer trainer : getTrainerDetails()) {
+            String gmailId = trainer.getEmailId(emailId);
+            if(emailId == gmailId) {
+                isDuplicate = false;
+            }
+        }
+        return isDuplicate;
+    }
 
     public boolean isCheckTrainerListIsEmpty() {
             return trainerDAO.trainerList.isEmpty();
@@ -34,8 +45,8 @@ public class TrainerService {
 
     public int checkIndex(Integer number) {
         int trainerIndex = 0;
-        for (int index = 0; index < trainerDAO.trainerList.size(); index++) {
-            if (number.equals(trainerDAO.trainerList.get(index).getId())) {
+        for (int index = 0; index < trainerDAO.getTrainer().size(); index++) {
+            if (number.equals(trainerDAO.getTrainer().get(index).getId())) {
                 trainerIndex = index;
             }
         }
@@ -95,7 +106,7 @@ public class TrainerService {
     }
 
     public void deleteTrainer(Integer id) {
-        int trainerIndex = checkIndex(id);
-        trainerDAO.deleteTrainerId(trainerIndex);
+        int index = checkIndex(id);
+        trainerDAO.deleteTrainerId(index);
     }
 }

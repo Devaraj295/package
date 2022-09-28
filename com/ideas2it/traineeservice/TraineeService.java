@@ -9,13 +9,24 @@ import java.time.LocalDate;
 
 public class TraineeService {
     TraineeDAO traineeDAO = new TraineeDAO();
-    
+
     public void addTraineeDetails(Trainee trainee) {
         traineeDAO.addTrainee(trainee);
     }
 
     public List<Trainee> getAllDetails() {
-        return traineeDAO.getTraineeDetails();
+        return traineeDAO.getTrainee();
+    }
+
+    public boolean isCheckDuplicate(String emailId) {
+        boolean isDuplicate = true;
+        for (Trainee trainee : getAllDetails()) {
+            String gmailId = trainee.getEmailId();
+            if(emailId == gmailId) {
+                isDuplicate = false;
+            }
+        }
+        return isDuplicate;
     }
 
     public boolean isCheckTraineeEmpty() {
@@ -24,8 +35,8 @@ public class TraineeService {
 
     public boolean isCheckTraineeId(Integer id) {
         boolean isValid = false;
-        for (int index = 0; index < traineeDAO.traineeList.size(); index++) {
-            if (id.equals(traineeDAO.traineeList.get(index).getId())) {
+        for (int index = 0; index < traineeDAO.getTrainee().size(); index++) {
+            if (id.equals(traineeDAO.getTrainee().get(index).getId())) {
                 isValid = true;
             }
         }
@@ -34,8 +45,8 @@ public class TraineeService {
 
     public int checkIndexById(Integer id) {
         int traineeIndex = 0;
-        for (int index = 0; index < traineeDAO.traineeList.size(); index++) {
-            if (id.equals(traineeDAO.traineeList.get(traineeIndex).getId())) {
+        for (int index = 0; index < traineeDAO.getTrainee().size(); index++) {
+            if (id.equals(traineeDAO.getTrainee().get(traineeIndex).getId())) {
                 traineeIndex = index;
                 break;
             }
@@ -80,12 +91,12 @@ public class TraineeService {
 
     public Trainee getId(Integer id) {
         Integer traineeIndex = checkIndexById(id);
-        return traineeDAO.getTraineeDetails().get(traineeIndex);
+        return traineeDAO.getTrainee().get(traineeIndex);
     }
 
     public Trainee getTrainee(Integer id) {
         Integer traineeIndex = checkIndexById(id);
-        return traineeDAO.getTraineeDetails().get(traineeIndex);
+        return traineeDAO.getTrainee().get(traineeIndex);
     }
 
     public void deleteId(Integer id) {
