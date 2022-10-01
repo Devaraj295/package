@@ -22,7 +22,7 @@ public class TrainerService {
         boolean isDuplicate = true;
         for (Trainer trainer : getTrainerDetails()) {
             String gmailId = trainer.getEmailId(emailId);
-            if(emailId == gmailId) {
+            if(emailId .equals(gmailId)) {
                 isDuplicate = false;
             }
         }
@@ -53,28 +53,28 @@ public class TrainerService {
         return trainerIndex;
     }
 
-    public void updateName(Integer id, String name) {
+    public void updateName(int id, String name) {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setName(name);
         trainerDAO.updateTrainer(index, trainer);
     }
 
-    public void updateAge(Integer id, int age) {
+    public void updateAge(int id, int age) {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setAge(age);
         trainerDAO.updateTrainer(index, trainer);
     }
 
-    public void updateExperience(Integer id, float experience) {
+    public void updateExperience(int id, float experience) {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setExperience(experience);
         trainerDAO.updateTrainer(index, trainer);
     }
 
-    public void updateDateOfBirth(Integer id, LocalDate dateOfBirth) {
+    public void updateDateOfBirth(int id, LocalDate dateOfBirth) {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setDateOfBirth(dateOfBirth);
@@ -88,14 +88,14 @@ public class TrainerService {
         trainerDAO.updateTrainer(index, trainer);
     }
 
-    public void updateEmailId(Integer id, String emailId) {
+    public void updateEmailId(int id, String emailId) {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setEmailId(emailId);
         trainerDAO.updateTrainer(index, trainer);
     }
 
-    public String searchId(Integer id) {
+    public String searchId(int id) {
         int index = checkIndex(id);
         return trainerDAO.getTrainer().get(index).toString();
     }
@@ -105,7 +105,7 @@ public class TrainerService {
         return trainerDAO.getTrainer().get(index);
     }
 
-    public void deleteTrainer(Integer id) {
+    public void deleteTrainer(int id) {
         int index = checkIndex(id);
         trainerDAO.deleteTrainerId(index);
     }

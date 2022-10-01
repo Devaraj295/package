@@ -22,7 +22,7 @@ public class TraineeService {
         boolean isDuplicate = true;
         for (Trainee trainee : getAllDetails()) {
             String gmailId = trainee.getEmailId();
-            if(emailId == gmailId) {
+            if(emailId .equals(gmailId)) {
                 isDuplicate = false;
             }
         }
@@ -54,53 +54,53 @@ public class TraineeService {
         return traineeIndex;
     }
 
-    public void updateName(Integer id, String name) {
-        Integer traineeIndex = checkIndexById(id);
+    public void updateName(int id, String name) {
+        int traineeIndex = checkIndexById(id);
         Trainee trainee = getTrainee(traineeIndex);
         trainee.setName(name);
         traineeDAO.updateTrainee(traineeIndex, trainee);
     }
 
-    public void updateAge(Integer id, int age) {
-        Integer traineeIndex = checkIndexById(id);
+    public void updateAge(int id, int age) {
+        int traineeIndex = checkIndexById(id);
         Trainee trainee = getTrainee(traineeIndex);
         trainee.setAge(age);
         traineeDAO.updateTrainee(traineeIndex, trainee);
     }
 
-    public void updatePhoneNumber(Integer id, long phoneNumber) {
-        Integer traineeIndex = checkIndexById(id);
+    public void updatePhoneNumber(int id, long phoneNumber) {
+        int traineeIndex = checkIndexById(id);
         Trainee trainee = getTrainee(traineeIndex);
         trainee.setPhoneNumber(phoneNumber);
         traineeDAO.updateTrainee(traineeIndex, trainee);
     }
   
-    public void updateEmailId(Integer id, String emailId) {
-        Integer traineeIndex = checkIndexById(id);
+    public void updateEmailId(int id, String emailId) {
+        int traineeIndex = checkIndexById(id);
         Trainee trainee = getTrainee(traineeIndex);
         trainee.setEmailId(emailId);
         traineeDAO.updateTrainee(traineeIndex, trainee);
     }
 
-    public void updateDateOfBirth(Integer id, LocalDate dateOfBirth) {
-        Integer traineeIndex = checkIndexById(id);
+    public void updateDateOfBirth(int id, LocalDate dateOfBirth) {
+        int traineeIndex = checkIndexById(id);
         Trainee trainee = getTrainee(traineeIndex);
         trainee.setDateOfBirth(dateOfBirth);
         traineeDAO.updateTrainee(traineeIndex, trainee);
     }
 
-    public Trainee getId(Integer id) {
-        Integer traineeIndex = checkIndexById(id);
+    public Trainee getId(int id) {
+        int traineeIndex = checkIndexById(id);
         return traineeDAO.getTrainee().get(traineeIndex);
     }
 
-    public Trainee getTrainee(Integer id) {
-        Integer traineeIndex = checkIndexById(id);
+    public Trainee getTrainee(int id) {
+        int traineeIndex = checkIndexById(id);
         return traineeDAO.getTrainee().get(traineeIndex);
     }
 
-    public void deleteId(Integer id) {
-        Integer traineeIndex = checkIndexById(id);
+    public void deleteId(int id) {
+        int traineeIndex = checkIndexById(id);
         traineeDAO.deleteTrainee(traineeIndex);
     }
 }
