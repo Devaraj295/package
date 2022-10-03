@@ -35,8 +35,8 @@ public class TrainerService {
 
     public boolean isCheckTrainerId(Integer trainerId) {
         boolean isValid = false;
-        for (int index = 0; index < trainerDAO.trainerList.size(); index++) {
-            if ((trainerDAO.trainerList.get(index).getId()).equals(trainerId)) {
+        for (int index = 0; index < getTrainerDetails().size(); index++) {
+            if ((getTrainerDetails().get(index).getId()).equals(trainerId)) {
                 isValid = true;
             }
         }
@@ -45,8 +45,8 @@ public class TrainerService {
 
     public int checkIndex(Integer number) {
         int trainerIndex = 0;
-        for (int index = 0; index < trainerDAO.getTrainer().size(); index++) {
-            if (number.equals(trainerDAO.getTrainer().get(index).getId())) {
+        for (int index = 0; index < getTrainerDetails().size(); index++) {
+            if (number.equals(getTrainerDetails().get(index).getId())) {
                 trainerIndex = index;
             }
         }
@@ -81,7 +81,7 @@ public class TrainerService {
         trainerDAO.updateTrainer(index, trainer);
     }
 
-    public void updatePhoneNumber(Integer id, long phoneNumber) {
+    public void updatePhoneNumber(int id, long phoneNumber) {
         int index = checkIndex(id);
         Trainer trainer = getTrainer(index);
         trainer.setPhoneNumber(phoneNumber);

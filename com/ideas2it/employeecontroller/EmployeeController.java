@@ -135,7 +135,7 @@ public class EmployeeController {
         boolean isValidEmail = false;
         do {
             logger.info("Enter employee email id: ");
-            emailId = scanner.nextLine();
+            emailId = scanner.next();
             isValidEmail = ValidationUtil.isValidInput
                                           (ValidationUtil.emailIdPattern, emailId);
             if (!(isValidEmail)) {
@@ -233,9 +233,7 @@ public class EmployeeController {
     }
 
     public void updateTraineeDetails() {
-        if (traineeService.isCheckTraineeEmpty()) {
-            logger.warn("Trainee list is empty");
-        } else {
+        if (!(traineeService.isCheckTraineeEmpty())) {
             logger.info("Enter trainee id for update:");
             int id = Integer.parseInt(scanner.nextLine());
             int choice = 0;
@@ -278,28 +276,30 @@ public class EmployeeController {
                     logger.error("Enter numbers only");
                 }
             } while (choice != 5);
+        } else  {
+            logger.warn("Trainee list is empty");
         }
     }
 
      public void viewTraineeDetails() {
         List<Trainee> traineeDetail = traineeService.getAllDetails();
-        if(traineeDetail.isEmpty()) {
-            logger.warn("Trainee list is empty");
-        } else {
+        if(!(traineeDetail.isEmpty())) {
             for (Trainee traineeList : traineeDetail) {
                 logger.info(traineeList.toString());
             }
+        } else {
+            logger.warn("Trainee list is empty");
         }
     }
 
     public void deleteTraineeDetail() {
-        if(traineeService.getAllDetails().isEmpty()) {
-            logger.warn("Trainee list is empty");
-        } else {
+        if(!(traineeService.getAllDetails().isEmpty())) {
             logger.info("Enter the trainee id :");
             int delete = scanner.nextInt();
             traineeService.deleteId(delete);
             logger.info("Trainee id " + delete + " deleted successfully");
+        } else {
+            logger.warn("Trainee list is empty");
         }
     }
 
@@ -348,7 +348,7 @@ public class EmployeeController {
             } catch (Exception exception) {
                 logger.error("Enter numbers only");
             }
-        } while (choice != 6);       
+        } while (choice != 6);
     }
 
     public void addTrainerDetails() {
@@ -382,7 +382,7 @@ public class EmployeeController {
                 choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        assignExisistTrainee();
+                        traineeAssignList.add(assignExisistTrainee());
                         break;
 
                     case 2:
@@ -392,7 +392,7 @@ public class EmployeeController {
                         break;
 
                     case 3:
-                        logger.info("Exited Assign trainee operation");
+                        logger.info("Exited assign trainee operation");
                         break;
 
                     default:
@@ -400,40 +400,38 @@ public class EmployeeController {
                         break;
                 }
             } catch(Exception exception) {
-              logger.error("Enter Numbers only");
+              logger.error("Enter numbers only");
             }
         } while (choice != 3);
         return traineeAssignList;
     }
 
-    public void assignExisistTrainee() {
+    public Trainee assignExisistTrainee() {
         int traineeID;
-        List<Trainee> traineeAssignList = new ArrayList<Trainee>();
-        if (traineeService.isCheckTraineeEmpty()) {
-            logger.warn("Trainee list is empty");
-        } else {
+        if (!(traineeService.isCheckTraineeEmpty())) {
             logger.info("Available trainee list id's :");
             for (Trainee trainee : traineeService.getAllDetails()) {
                 logger.info(trainee.getId());
             }
             logger.info("Choose the trainee id to assign");
-            traineeID = scanner.nextInt();
-            traineeAssignList.add(traineeService.getId(traineeId));
-        }
-    }     
-      
-    public void updateTrainerDetails() {
-        if(trainerService.isCheckTrainerListIsEmpty()) {
-            logger.warn("Trainer list is empty");
+            traineeID = Integer.parseInt(scanner.nextLine());
+            traineeService.getId(traineeId);
         } else {
+            logger.warn("Trainee list is empty");
+        }
+        return traineeService.getId(traineeId);
+    }
+
+    public void updateTrainerDetails() {
+        if (!(trainerService.isCheckTrainerListIsEmpty())) {
             try {
                 logger.info("Enter the trainer id to update");
                 int id = Integer.parseInt(scanner.nextLine());
-                trainerService.checkIndex(id);       
+                trainerService.checkIndex(id);     
                 logger.info("Choose the option" + "\n"
                             + "1.Update trainer name" + "\n"
-                            + "2.Update trainer date of birth" + "\n"                             
-                            + "3.update trainer phone number" + "\n"
+                            + "2.Update trainer date of birth" + "\n"                  
+                            + "3.Update trainer phone number" + "\n"
                             + "4.Update trainer email id" + "\n" + "5.Go back");
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
@@ -461,18 +459,18 @@ public class EmployeeController {
                         logger.warn("Enter valid option");
                 }
             } catch(Exception exception) {
-                logger.error("Enter Numbers only");
+                logger.error("Enter numbers only");
             }
+        } else {
+            logger.warn("Trainer list is empty");
         }
     }
 
     public void viewTrainerDetails() {
         List<Trainer> trainerDetails = trainerService.getTrainerDetails();
-        if(trainerDetails.isEmpty()) {
-            logger.warn("Traineer list is empty");
-        } else {
+        if(!(trainerDetails.isEmpty())) {
             for (Trainer trainer : trainerDetails) {
-                System.out.println(trainer);
+                logger.info(trainer);
                 List<Trainee> traineeList = trainer.getTrainee();
                 if (!(traineeList.isEmpty())) {
                     for(Trainee trainee : traineeList) {
@@ -480,18 +478,20 @@ public class EmployeeController {
                     }
                 }
             }
+        } else {
+            logger.warn("Traineer list is empty");
         }
     }
 
     public void deleteTrainerDetail() {
-        if(trainerService.getTrainerDetails().isEmpty()) {
-            logger.warn(" Trainer list is empty");
-        } else {
+        if(!(trainerService.getTrainerDetails().isEmpty())) {
             logger.info("Enter the trainer id :");
             Integer deleteTrainer = scanner.nextInt();
             trainerService.deleteTrainer(deleteTrainer);
             logger.info("Trainer id " + deleteTrainer
-                              + " deleted sucessfully");
+                        + " deleted sucessfully");
+        } else {
+            logger.warn(" Trainer list is empty");
         }
     }
 }

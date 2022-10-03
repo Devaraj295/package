@@ -35,8 +35,8 @@ public class TraineeService {
 
     public boolean isCheckTraineeId(Integer id) {
         boolean isValid = false;
-        for (int index = 0; index < traineeDAO.getTrainee().size(); index++) {
-            if (id.equals(traineeDAO.getTrainee().get(index).getId())) {
+        for (int index = 0; index < getAllDetails().size(); index++) {
+            if (id.equals(getAllDetails().get(index).getId())) {
                 isValid = true;
             }
         }
@@ -45,8 +45,8 @@ public class TraineeService {
 
     public int checkIndexById(Integer id) {
         int traineeIndex = 0;
-        for (int index = 0; index < traineeDAO.getTrainee().size(); index++) {
-            if (id.equals(traineeDAO.getTrainee().get(traineeIndex).getId())) {
+        for (int index = 0; index < getAllDetails().size(); index++) {
+            if (id.equals(getAllDetails().get(traineeIndex).getId())) {
                 traineeIndex = index;
                 break;
             }
